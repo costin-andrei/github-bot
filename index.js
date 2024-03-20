@@ -1,7 +1,11 @@
-import { Probot } from 'probot'; // Import the Probot library
+const { Probot } = require('probot');
+const { createAppAuth } = require('@octokit/auth-app');
+require('dotenv').config(); // Load environment variables from .env file
 
-export default function appFunction(app) {
-  // Register your app's main event handlers here
+// Define the port you want to use
+const PORT = process.env.PORT || 8080;
+
+module.exports = (app) => {
   app.log.info("Yay, the app was loaded!");
 
   // Event handler for when an issue is opened
@@ -19,19 +23,23 @@ export default function appFunction(app) {
     });
     return context.octokit.issues.createComment(pullRequestComment);
   });
+};
 
-  // Additional event handlers or logic can be added here
-
-  // For more information on building apps:
-  // https://probot.github.io/docs/
-
-  // To get your app running against GitHub, see:
-  // https://probot.github.io/docs/development/
-}
-
-// This code is executed when the Probot app is started
-export const probotApp = new Probot({
-  // Add any additional options or configuration here
+// Authenticate as a GitHub App using the private key
+const auth = createAppAuth({
+  appId: process.env.APP_ID,
+  privateKey: process.env.PRIVATE_KEY,
 });
 
-probotApp.load(appFunction); // Load your main app function into the Probot instance
+// Create a new Probot instance with the authentication
+const probot = new Probot({
+  auth: auth,
+});
+
+// Load your main app function into the Probot instance
+probot.load(module.exports);
+
+// Start the Probot application and listen for incoming HTTP requests
+probot.start(PORT, () => {
+  console.log(`Probot app is running on port ${PORT}`);
+});
