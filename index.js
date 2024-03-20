@@ -3,7 +3,6 @@
  * @param {import('probot').Probot} app
  */
 export default (app) => {
-  // Your code here
   app.log.info("Yay, the app was loaded!");
 
   app.on("issues.opened", async (context) => {
