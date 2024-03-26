@@ -1,8 +1,8 @@
 {
-  "name": "github-bot",
+  "name": "github-app-ftos",
   "version": "1.0.0",
   "private": true,
-  "description": "A GitHub Bot",
+  "description": "A Probot app",
   "author": "Costin Andrei",
   "license": "ISC",
   "homepage": "https://github.com//",
@@ -16,7 +16,6 @@
     "test": "node --test"
   },
   "dependencies": {
-    "dotenv": "^16.4.5",
     "probot": "^13.0.1"
   },
   "devDependencies": {
