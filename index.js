@@ -2,7 +2,7 @@
  * This is the main entrypoint to your Probot app
  * @param {import('probot').Probot} app
  */
-export default (app) => {
+module.exports = (app) => {
   // Your code here
   app.log.info("Yay, the app was loaded!");
 
@@ -11,12 +11,11 @@ export default (app) => {
       body: "Thanks for opening this issue!",
     });
     const assignee = context.issue({
-      assignees: "costin-andrei",
+      assignees: "deep-mm",
     });
     context.octokit.issues.addAssignees(assignee);
     return context.octokit.issues.createComment(issueComment);
   });
-
 
   // For more information on building apps:
   // https://probot.github.io/docs/
